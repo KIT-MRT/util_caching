@@ -68,7 +68,7 @@ or by specifying one comparison policy and threshold (100ms for example), and re
 
 ```cpp
     Time time2 = time1 + 10ms;
-    util_caching::policies::ApproximateTime<std::chrono::milliseconds> approximateTimePolicy{100};
+    util_caching::policies::ApproximateTime<Time, std::chrono::milliseconds> approximateTimePolicy{100};
     // approximate match with miliseconds
     EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy));
     EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy), 1.);

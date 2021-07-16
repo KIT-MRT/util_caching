@@ -9,12 +9,12 @@ namespace util_caching {
 namespace policies {
 
 // The ApproximateTime struct is one example that can be used as key for the Cache
-template <typename TimeUnitType = std::chrono::milliseconds>
+template <typename TimeType = Time, typename TimeUnitType = std::chrono::milliseconds>
 struct ApproximateTime {
     explicit ApproximateTime(const double threshold) : threshold_{threshold} {
     }
     // defines the policy that two time points is close enough
-    bool operator()(const Time& lhs, const Time& rhs) const {
+    bool operator()(const TimeType& lhs, const TimeType& rhs) const {
         const double diff = std::chrono::duration_cast<TimeUnitType>(lhs - rhs).count();
         return std::fabs(diff) <= threshold_;
     }
