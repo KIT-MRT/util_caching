@@ -53,43 +53,64 @@ struct SomePolicyWithoutParams {
 
 class CacheTest : public ::testing::Test {
 protected:
+    double key1{1.};
+    double key2{1.2};
+    double key3{1.6};
     Time time1 = std::chrono::steady_clock::now();
     Time time2 = time1 + 10ms;
     Time time3 = time1 + 1100ms;
     Time time4 = time1 + 2100ms;
-    Cache<Time, double> cache;
+    Cache<double, double> cacheByNumber;
+    Cache<Time, double> cacheByTime;
+    util_caching::policies::ApproximateNumber<double> approximateNumberPolicy{0.5};
     util_caching::policies::ApproximateTime<std::chrono::milliseconds> approximateTimePolicy{100};
     util_caching::policies::ApproximateTime<std::chrono::seconds> approximateTimePolicy2{1};
     SomePolicyWithoutParams dummyPolicy;
 };
 
-
-TEST_F(CacheTest, TestWithTimeKey) {
-    EXPECT_FALSE(cache.cached(time1));
-    cache.cache(1., time1);
+TEST_F(CacheTest, TestWithNumberKey) {
+    EXPECT_FALSE(cacheByNumber.cached(key1));
+    cacheByNumber.cache(key1, 1.);
 
     // exact match
-    EXPECT_TRUE(cache.cached(time1));
-    EXPECT_DOUBLE_EQ(*cache.cached(time1), 1.);
+    EXPECT_TRUE(cacheByNumber.cached(key1));
+    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key1), 1.);
 
-    // approximate match with miliseconds
-    EXPECT_TRUE(cache.cached(time2, approximateTimePolicy));
-    EXPECT_DOUBLE_EQ(*cache.cached(time2, approximateTimePolicy), 1.);
-
-    // approximate match with seconds
-    EXPECT_TRUE(cache.cached(time2, approximateTimePolicy2));
-    EXPECT_DOUBLE_EQ(*cache.cached(time2, approximateTimePolicy2), 1.);
+    // approximate match
+    EXPECT_TRUE(cacheByNumber.cached(key2, approximateNumberPolicy));
+    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key2, approximateNumberPolicy), 1.);
 
     // over threshold
-    EXPECT_FALSE(cache.cached(time3, approximateTimePolicy));
+    EXPECT_FALSE(cacheByNumber.cached(key3, approximateNumberPolicy));
+}
+
+
+TEST_F(CacheTest, TestWithTimeKey) {
+    EXPECT_FALSE(cacheByTime.cached(time1));
+    cacheByTime.cache(time1, 1.);
+
+    // exact match
+    EXPECT_TRUE(cacheByTime.cached(time1));
+    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time1), 1.);
+
+    // approximate match with miliseconds
+    EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy));
+    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy), 1.);
+
+    // approximate match with seconds
+    EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy2));
+    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy2), 1.);
+
+    // over threshold
+    EXPECT_FALSE(cacheByTime.cached(time3, approximateTimePolicy));
     // exactly 1s after rounding to integer
-    EXPECT_TRUE(cache.cached(time3, approximateTimePolicy2));
+    EXPECT_TRUE(cacheByTime.cached(time3, approximateTimePolicy2));
     // expect 2s after rounding to integer which is over threshold
-    EXPECT_FALSE(cache.cached(time4, approximateTimePolicy2));
+    EXPECT_FALSE(cacheByTime.cached(time4, approximateTimePolicy2));
 }
 
 TEST_F(CacheTest, TestWithOtherComparisonPolicy) {
-    cache.cache(1., time1);
-    EXPECT_TRUE(cache.cached<SomePolicyWithoutParams>(time2));
-    EXPECT_TRUE(cache.cached<SomePolicyWithoutParams>(time2, dummyPolicy));
+    cacheByTime.cache(time1, 1.);
+    EXPECT_TRUE(cacheByTime.cached<SomePolicyWithoutParams>(time2));
+    EXPECT_TRUE(cacheByTime.cached<SomePolicyWithoutParams>(time2, dummyPolicy));
 }

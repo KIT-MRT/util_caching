@@ -13,7 +13,6 @@ template <typename TimeUnitType = std::chrono::milliseconds>
 struct ApproximateTime {
     explicit ApproximateTime(const double threshold) : threshold_{threshold} {
     }
-
     // defines the policy that two time points is close enough
     bool operator()(const Time& lhs, const Time& rhs) const {
         const double diff = std::chrono::duration_cast<TimeUnitType>(lhs - rhs).count();
@@ -22,6 +21,19 @@ struct ApproximateTime {
 
 private:
     double threshold_; // threshold in TimeUnitType
+};
+
+template <typename NumberType>
+struct ApproximateNumber {
+    explicit ApproximateNumber(const NumberType threshold) : threshold_{threshold} {
+    }
+    // defines the policy that two numbers is close enough
+    bool operator()(const NumberType& lhs, const NumberType& rhs) const {
+        return std::fabs(lhs - rhs) <= threshold_;
+    }
+
+private:
+    NumberType threshold_; // threshold in TimeUnitType
 };
 
 } // namespace policies
@@ -56,7 +68,7 @@ public:
      * \param value  The value that is to be cached
      * \param key  The key that is correlated to the value
      */
-    void cache(const ValueType& value, const KeyType& key) {
+    void cache(const KeyType& key, const ValueType& value) {
         value_ = value;
         key_ = key;
     }
