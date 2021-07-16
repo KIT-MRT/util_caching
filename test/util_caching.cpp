@@ -74,11 +74,11 @@ TEST_F(CacheTest, TestWithNumberKey) {
 
     // exact match
     EXPECT_TRUE(cacheByNumber.cached(key1));
-    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key1), 1.);
+    EXPECT_DOUBLE_EQ(cacheByNumber.cached(key1).value(), 1.);
 
     // approximate match
     EXPECT_TRUE(cacheByNumber.cached(key2, approximateNumberPolicy));
-    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key2, approximateNumberPolicy), 1.);
+    EXPECT_DOUBLE_EQ(cacheByNumber.cached(key2, approximateNumberPolicy).value(), 1.);
 
     // over threshold
     EXPECT_FALSE(cacheByNumber.cached(key3, approximateNumberPolicy));
@@ -91,15 +91,15 @@ TEST_F(CacheTest, TestWithTimeKey) {
 
     // exact match
     EXPECT_TRUE(cacheByTime.cached(time1));
-    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time1), 1.);
+    EXPECT_DOUBLE_EQ(cacheByTime.cached(time1).value(), 1.);
 
     // approximate match with miliseconds
     EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy));
-    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy), 1.);
+    EXPECT_DOUBLE_EQ(cacheByTime.cached(time2, approximateTimePolicy).value(), 1.);
 
     // approximate match with seconds
     EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy2));
-    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy2), 1.);
+    EXPECT_DOUBLE_EQ(cacheByTime.cached(time2, approximateTimePolicy2).value(), 1.);
 
     // over threshold
     EXPECT_FALSE(cacheByTime.cached(time3, approximateTimePolicy));

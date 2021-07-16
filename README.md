@@ -1,6 +1,6 @@
 # UTIL CACHING
 
-This package cache arbitrary values which can be recalled by specifying a key
+This package cache arbitrary values which can be recalled by specifying a key.
 
 
 ## Usage
@@ -14,12 +14,12 @@ You could cache a value with arbitrary type (e.g. double) giving number (e.g. do
     double key1 = 1.0;
     cacheByNumber.cache(key1, 2.0);
 ```
-Now the Cache stores the value `2.0` with key `1.0`. You could restore the value by matching the exact key. Which will return `true` and you can obtain the value by referencing with `*`
+Now the Cache stores the value `2.0` with key `1.0`. You could restore the value by matching the exact key. Which will return `true` and you can obtain the value by referencing with `.value()`
 
 ```cpp
     // exact match
     EXPECT_TRUE(cacheByNumber.cached(key1));
-    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key1), 1.);
+    EXPECT_DOUBLE_EQ(cacheByNumber.cached(key1).value(), 1.);
 ```
 
 You can also do approximate matching by specifying one matching policy 
@@ -34,7 +34,7 @@ with `0.5` threshold that the key should not differ with the stored key. Now you
     double key2{1.2};
     // approximate match
     EXPECT_TRUE(cacheByNumber.cached(key2, approximateNumberPolicy));
-    EXPECT_DOUBLE_EQ(*cacheByNumber.cached(key2, approximateNumberPolicy), 1.);
+    EXPECT_DOUBLE_EQ(cacheByNumber.cached(key2, approximateNumberPolicy).value(), 1.);
 ```
 Of course the value can not be recalled when the keys differ more than the threshold:
 
@@ -61,7 +61,7 @@ Now you can recall the value by either do exact match:
 ```cpp
     // exact match
     EXPECT_TRUE(cacheByTime.cached(time1));
-    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time1), 1.);
+    EXPECT_DOUBLE_EQ(cacheByTime.cached(time1).value(), 1.);
 ```
 
 or by specifying one comparison policy and threshold (100ms for example), and recall by approximate match:
@@ -71,8 +71,8 @@ or by specifying one comparison policy and threshold (100ms for example), and re
     util_caching::policies::ApproximateTime<Time, std::chrono::milliseconds> approximateTimePolicy{100};
     // approximate match with miliseconds
     EXPECT_TRUE(cacheByTime.cached(time2, approximateTimePolicy));
-    EXPECT_DOUBLE_EQ(*cacheByTime.cached(time2, approximateTimePolicy), 1.);
+    EXPECT_DOUBLE_EQ(cacheByTime.cached(time2, approximateTimePolicy).value(), 1.);
 ```
 
-More usage please chech the unittest.
+More usage please check the unittest.
 
