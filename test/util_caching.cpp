@@ -63,8 +63,8 @@ protected:
     Cache<double, double> cacheByNumber;
     Cache<Time, double> cacheByTime;
     util_caching::policies::ApproximateNumber<double> approximateNumberPolicy{0.5};
-    util_caching::policies::ApproximateTime<std::chrono::milliseconds> approximateTimePolicy{100};
-    util_caching::policies::ApproximateTime<std::chrono::seconds> approximateTimePolicy2{1};
+    util_caching::policies::ApproximateTime<Time, std::chrono::milliseconds> approximateTimePolicy{100};
+    util_caching::policies::ApproximateTime<Time, std::chrono::seconds> approximateTimePolicy2{1};
     SomePolicyWithoutParams dummyPolicy;
 };
 
