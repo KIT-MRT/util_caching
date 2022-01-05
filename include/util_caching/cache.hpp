@@ -73,6 +73,14 @@ public:
         key_ = key;
     }
 
+    /*!
+     * @brief Reset the cached value and key
+     */
+    void reset() {
+        value_.reset();
+        key_.reset();
+    }
+
 private:
     std::optional<ValueType> value_;
     std::optional<KeyType> key_;
