@@ -79,6 +79,26 @@ More usage please check the unittest.
 
 ## Installation
 
+### Using Docker image
+
+We provide a [`Dockerfile`](./Dockerfile) with the library already installed globally.
+
+Clone or download this repository, then build and run the docker image with `docker compose`:
+
+```bash
+cd util_caching
+docker compose build
+docker compose run --rm util_caching
+```
+
+The library is installed in the Docker image under `/usr/local/include/util_caching/` and `/usr/local/lib/cmake/util_caching/`.
+So, it can be easily loaded with CMake:
+
+```cmake
+find_package(util_caching REQUIRED)
+```
+
+
 ### Building from source using CMake
 
 First make sure all dependencies are installed:
@@ -98,6 +118,20 @@ sudo cmake --install .
 
 
 ## Development
+
+### Using Docker image
+
+Follow the steps above to setup the Docker image.
+Then, run the development image.
+
+```bash
+docker compose -f docker-compose.devel.yaml build
+docker compose -f docker-compose.devel.yaml run --rm util_caching_devel
+```
+
+This mounts the source into the container's `/home/blinky/util_caching` folder.
+There, you can edit the source code, compile and run the tests etc.
+
 
 ### Compiling unit tests using CMake
 

@@ -1,0 +1,7 @@
+services:
+  util_caching_devel:
+    extends:
+      file: docker-compose.yaml
+      service: util_caching
+    volumes:
+      - .:/home/blinky/util_caching

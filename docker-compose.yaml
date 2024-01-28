@@ -1,0 +1,3 @@
+services:
+  util_caching:
+    build: .
