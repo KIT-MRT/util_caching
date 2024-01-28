@@ -76,3 +76,41 @@ or by specifying one comparison policy and threshold (100ms for example), and re
 
 More usage please check the unittest.
 
+
+## Installation
+
+### Building from source using CMake
+
+First make sure all dependencies are installed:
+- [Googletest](https://github.com/google/googletest) (only if you want to build unit tests)
+
+See also the [`Dockerfile`](./Dockerfile) for how to install these packages under Debian or Ubuntu.
+
+Compile and install the project with CMake:
+
+```bash
+mkdir -p util_caching/build
+cd util_caching/build
+cmake ..
+cmake --build .
+sudo cmake --install .
+```
+
+
+## Development
+
+### Compiling unit tests using CMake
+
+In order to compile with tests define `BUILD_TESTS=true`
+```bash
+mkdir -p util_caching/build
+cd util_caching/build
+cmake -DBUILD_TESTS=true ..
+cmake --build .
+```
+
+Run all unit tests:
+
+```bash
+find -executable -type f -name '*-gtest-*' -exec {} \;
+```
