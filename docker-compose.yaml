@@ -1,3 +1,4 @@
 services:
   util_caching:
+    image: util_caching
     build: .
