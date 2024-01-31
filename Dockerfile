@@ -12,12 +12,12 @@ RUN apt-get update && \
 
 # Install util_caching
 COPY . /tmp/util_caching
-RUN mkdir /tmp/util_caching_build && \
-    cd /tmp/util_caching_build && \
-    cmake /tmp/util_caching && \
+RUN mkdir /tmp/util_caching/build && \
+    cd /tmp/util_caching/build && \
+    cmake .. && \
     cmake --build . && \
     cmake --install . && \
-    rm -rf /tmp/util_caching_build /tmp/util_caching
+    rm -rf /tmp/util_caching
 
 
 RUN useradd --create-home --uid 1000 blinky
