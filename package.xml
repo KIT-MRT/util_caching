@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>This package cache arbitrary values which can be recalled by specifying a key</description>
 
-  <license>MRT</license>
+  <license>MIT</license>
   <maintainer email="lingguang.wang@kit.edu">Lingguang Wang</maintainer>
   <author email="lingguang.wang@kit.edu">Lingguang Wang</author>
   <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/MRT/draft/util_caching</url>
