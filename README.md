@@ -135,15 +135,22 @@ There, you can edit the source code, compile and run the tests etc.
 
 ### Compiling unit tests using CMake
 
-In order to compile with tests define `BUILD_TESTS=true`
+In order to compile with tests set the tests build target
+
 ```bash
 mkdir -p util_caching/build
 cd util_caching/build
-cmake -DBUILD_TESTS=true ..
-cmake --build .
+cmake ..
+cmake --build . -- tests
 ```
 
-Run all unit tests:
+Run all unit tests with 
+
+```bash
+ctest
+``` 
+
+or by running each test directly (this produces the full gtest output):
 
 ```bash
 find -executable -type f -name '*-gtest-*' -exec {} \;

@@ -67,25 +67,61 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
 find_package(GTest)
 
 if(GTEST_FOUND)
-  if(BUILD_TESTS)
-    file(GLOB_RECURSE _tests "test/*.cpp" "test/*.cc")
 
-    foreach(_test ${_tests})
-      get_filename_component(_test_name ${_test} NAME_WE)
-      # make sure we add only one -test to the target
-      string(REGEX REPLACE "-test" "" TEST_TARGET_NAME ${_test_name})
-      set(TEST_TARGET_NAME ${PROJECT_NAME}-gtest-${TEST_TARGET_NAME})
+# define catkin compatible targets to build and run all tests
+# - tests, tests_${PROJECT_NAME} and ${TEST_TARGET_NAME} targets compile the tests
+# - run_tests, run_tests_${PROJECT_NAME} and test targets run the tests
+#   (the latter is a CMake/CTest produce, while the others are set by the catkin_add_gtest macro)
 
-      message(STATUS
-        "Adding gtest unittest \"${TEST_TARGET_NAME}\" with working dir ${PROJECT_SOURCE_DIR}/${TEST_FOLDER} \n _test: ${_test}"
-      )
+if(NOT TARGET tests)
+  add_custom_target(tests ${all})
+endif()
+add_dependencies(tests ${PROJECT_NAME})
 
-      add_executable(${TEST_TARGET_NAME} ${_test})
+if(NOT TARGET run_tests)
+  add_custom_target(run_tests COMMAND make test)
+  add_dependencies(run_tests tests)
+  enable_testing()
+endif()
 
-      target_link_libraries(${TEST_TARGET_NAME} PUBLIC
-          ${GTEST_BOTH_LIBRARIES} pthread
-          ${PROJECT_NAME}
-      )
-    endforeach()
-  endif()
+add_custom_target(tests_${PROJECT_NAME})
+add_dependencies(tests tests_${PROJECT_NAME})
+
+if(NOT TARGET run_tests_${PROJECT_NAME})
+  add_custom_target(run_tests_${PROJECT_NAME})
+  add_dependencies(run_tests run_tests_${PROJECT_NAME})
+endif()
+
+
+# define catkin compatible targets to build and run each test in this repo
+
+file(GLOB_RECURSE _tests "test/*.cpp" "test/*.cc")
+
+  foreach(_test ${_tests})
+    get_filename_component(_test_name ${_test} NAME_WE)
+    # make sure we add only one -test to the target
+    string(REGEX REPLACE "-test" "" TEST_TARGET_NAME ${_test_name})
+    set(TEST_TARGET_NAME ${PROJECT_NAME}-gtest-${TEST_TARGET_NAME})
+
+    message(STATUS
+      "Adding gtest unittest \"${TEST_TARGET_NAME}\" with working dir ${PROJECT_SOURCE_DIR}/${TEST_FOLDER} \n _test: ${_test}"
+    )
+
+    add_executable(${TEST_TARGET_NAME} ${_test})
+
+    set(TEST_RESULTS_DIR ${CMAKE_BINARY_DIR}/test_results)
+    if(DEFINED CATKIN_TEST_RESULTS_DIR)
+        # support overriding to be compatible with catkin
+        set(TEST_RESULTS_DIR ${CATKIN_TEST_RESULTS_DIR})
+    endif()
+    set(RESULT_XML_PATH ${TEST_RESULTS_DIR}/${PROJECT_NAME}/gtest-${TEST_TARGET_NAME}.xml)
+    add_test(NAME ${TEST_TARGET_NAME} COMMAND $<TARGET_FILE:${TEST_TARGET_NAME}> --gtest_color=yes --gtest_output=xml:${RESULT_XML_PATH})
+
+    set_target_properties(${TEST_TARGET_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    target_link_libraries(${TEST_TARGET_NAME} PUBLIC
+        ${GTEST_BOTH_LIBRARIES} pthread
+        ${PROJECT_NAME}
+    )
+    add_dependencies(tests_${PROJECT_NAME} ${TEST_TARGET_NAME})
+  endforeach()
 endif()
