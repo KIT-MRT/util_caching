@@ -1,0 +1,22 @@
+FROM ros:noetic-ros-core
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install build dependencies
+RUN apt-get update && \
+    apt-get install -y \
+      build-essential \
+      python3-catkin-tools && \
+    apt-get clean
+
+RUN useradd --create-home --uid 1000 blinky
+USER blinky
+
+WORKDIR /home/blinky/
+
+# Build util_caching in a catkin workspace
+COPY --chown=blinky:blinky . /home/blinky/catkin_ws/src/util_caching
+RUN cd /home/blinky/catkin_ws/ && \
+    . /opt/ros/noetic/setup.sh && \
+    catkin init && \
+    catkin build

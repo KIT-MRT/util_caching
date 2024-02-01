@@ -155,3 +155,44 @@ or by running each test directly (this produces the full gtest output):
 ```bash
 find -executable -type f -name '*-gtest-*' -exec {} \;
 ```
+
+
+### Using ROS 1 and catkin
+
+The [`Dockerfile_ros`](./Dockerfile_ros) shows that also catkin is supported as a build tool (it uses CMake under the hood anyways):
+
+```bash
+docker compose -f docker-compose.ros.yaml build
+docker compose -f docker-compose.ros.yaml run --rm util_caching_ros
+```
+
+You'll find a built catkin workspace in `/home/blinky/catkin_ws`. 
+To run the tests:
+
+```bash
+cd catkin_ws
+catkin test
+```
+
+As above, running each test directly will produce the full gtest output:
+
+```bash
+find -executable -type f -name '*-gtest-*' -exec {} \;
+```
+
+> ```
+> [==========] Running 3 tests from 1 test suite.
+> [----------] Global test environment set-up.
+> [----------] 3 tests from CacheTest
+> [ RUN      ] CacheTest.TestWithNumberKey
+> [       OK ] CacheTest.TestWithNumberKey (0 ms)
+> [ RUN      ] CacheTest.TestWithTimeKey
+> [       OK ] CacheTest.TestWithTimeKey (0 ms)
+> [ RUN      ] CacheTest.TestWithOtherComparisonPolicy
+> [       OK ] CacheTest.TestWithOtherComparisonPolicy (0 ms)
+> [----------] 3 tests from CacheTest (0 ms total)
+> 
+> [----------] Global test environment tear-down
+> [==========] 3 tests from 1 test suite ran. (0 ms total)
+> [  PASSED  ] 3 tests.
+> ```

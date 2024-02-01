@@ -1,0 +1,6 @@
+services:
+  util_caching_ros:
+    image: util_caching_ros
+    build:
+      context: .
+      dockerfile: Dockerfile_ros
