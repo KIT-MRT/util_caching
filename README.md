@@ -152,11 +152,11 @@ find -executable -type f -name '*-gtest-*' -exec {} \;
 
 ### Using ROS 1 and catkin
 
-The [`Dockerfile_ros`](./Dockerfile_ros) shows that also catkin is supported as a build tool (it uses CMake under the hood anyways):
+The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that also catkin is supported as a build tool (it uses CMake under the hood anyways):
 
 ```bash
-docker compose -f docker-compose.ros.yaml build
-docker compose -f docker-compose.ros.yaml run --rm util_caching_ros
+docker compose -f demo/docker-compose.ros.yaml build
+docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
 ```
 
 You'll find a built catkin workspace in `/home/blinky/catkin_ws`. 

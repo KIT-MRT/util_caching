@@ -14,7 +14,7 @@ docker compose -f docker-compose.ros.yaml build
 docker compose -f docker-compose.ros.yaml run --rm util_caching_ros
 ```
 
-There, you'll find a built catkin workspace and running roscore in `/home/blinky/catkin_ws`. 
+There, you'll find a built catkin workspace in `/home/blinky/catkin_ws` and a roscore running in the background. 
 To run the demo:
 
 ```bash
