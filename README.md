@@ -148,3 +148,34 @@ Run all unit tests:
 ```bash
 find -executable -type f -name '*-gtest-*' -exec {} \;
 ```
+
+This will produce the full gtest output:
+
+> ```
+> [==========] Running 3 tests from 1 test suite.
+> [----------] Global test environment set-up.
+> [----------] 3 tests from CacheTest
+> [ RUN      ] CacheTest.TestWithNumberKey
+> [       OK ] CacheTest.TestWithNumberKey (0 ms)
+> [ RUN      ] CacheTest.TestWithTimeKey
+> [       OK ] CacheTest.TestWithTimeKey (0 ms)
+> [ RUN      ] CacheTest.TestWithOtherComparisonPolicy
+> [       OK ] CacheTest.TestWithOtherComparisonPolicy (0 ms)
+> [----------] 3 tests from CacheTest (0 ms total)
+> 
+> [----------] Global test environment tear-down
+> [==========] 3 tests from 1 test suite ran. (0 ms total)
+> [  PASSED  ] 3 tests.
+> ```
+
+
+### Using ROS 1 and catkin
+
+The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that how util_caching can be used in a catkin project (it uses CMake under the hood anyways):
+
+```bash
+docker compose -f demo/docker-compose.ros.yaml build
+docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
+```
+
+See [demo/README.md](demo/README.md) for how to run the demo, showcasing the use of `util_caching` in a ROS node.
