@@ -149,29 +149,7 @@ Run all unit tests:
 find -executable -type f -name '*-gtest-*' -exec {} \;
 ```
 
-
-### Using ROS 1 and catkin
-
-The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that also catkin is supported as a build tool (it uses CMake under the hood anyways):
-
-```bash
-docker compose -f demo/docker-compose.ros.yaml build
-docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
-```
-
-You'll find a built catkin workspace in `/home/blinky/catkin_ws`. 
-To run the tests:
-
-```bash
-cd catkin_ws
-catkin test
-```
-
-As above, running each test directly will produce the full gtest output:
-
-```bash
-find -executable -type f -name '*-gtest-*' -exec {} \;
-```
+This will produce the full gtest output:
 
 > ```
 > [==========] Running 3 tests from 1 test suite.
@@ -189,3 +167,15 @@ find -executable -type f -name '*-gtest-*' -exec {} \;
 > [==========] 3 tests from 1 test suite ran. (0 ms total)
 > [  PASSED  ] 3 tests.
 > ```
+
+
+### Using ROS 1 and catkin
+
+The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that how util_caching can be used in a catkin project (it uses CMake under the hood anyways):
+
+```bash
+docker compose -f demo/docker-compose.ros.yaml build
+docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
+```
+
+See [demo/README.md](demo/README.md) for how to run the demo, showcasing the use of `util_caching` in a ROS node.
