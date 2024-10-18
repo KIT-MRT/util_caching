@@ -76,6 +76,13 @@ or by specifying one comparison policy and threshold (100ms for example), and re
 
 More usage please check the unittest.
 
+## Python bindings
+
+The library can be used in Python via pybind11 bindings.
+Since util_caching is a template library, we need to explicitly instantiate the template for the types we want to use in Python.
+For this, we provide the convenience functions `bindNumberBasedCache` and `bindTimeBasedCache`.
+Check the unit test for a usage example.
+
 
 ## Installation
 
