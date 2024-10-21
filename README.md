@@ -79,9 +79,24 @@ More usage please check the unittest.
 ## Python bindings
 
 The library can be used in Python via pybind11 bindings.
-Since util_caching is a template library, we need to explicitly instantiate the template for the types we want to use in Python.
-For this, we provide the convenience functions `bindNumberBasedCache` and `bindTimeBasedCache`.
-Check the unit test for a usage example.
+Since util_caching is a template library,
+  you need to explicitly instantiate the template for the types you want to use in Python.
+For this, we provide convenience functions to bind the library for the desired types.
+Simply call them in a pybind11 module definition, e.g.:
+
+```cpp
+PYBIND11_MODULE(util_caching, m) {
+    python_api::number_based::bindCache<double, double>(m);
+}
+```
+and use them in Python:
+
+```python
+from util_caching import Cache
+cache = Cache()
+cache.cache(1.0, 2.0)
+```
+We re-implemented all of the C++ unit tests in Python, so take a closer look at those for more advanced usage examples.
 
 
 ## Installation
@@ -119,6 +134,7 @@ find_package(util_caching REQUIRED)
 
 First make sure all dependencies are installed:
 - [Googletest](https://github.com/google/googletest) (only if you want to build unit tests)
+- [pybind11](https://pybind11.readthedocs.io/en/stable/) (only if you want to build Python bindings and unit tests)
 
 See also the [`Dockerfile`](./Dockerfile) for how to install these packages under Debian or Ubuntu.
 
