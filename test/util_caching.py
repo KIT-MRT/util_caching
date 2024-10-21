@@ -2,7 +2,7 @@ import os
 import unittest
 import time
 
-from util_caching_py import number_based, time_based
+from util_caching_py import number_based, time_based, SomePolicyWithoutParams
 
 
 class CacheTest(unittest.TestCase):
@@ -18,7 +18,8 @@ class CacheTest(unittest.TestCase):
         self.cache_by_time = time_based.Cache()
         self.approximate_number_policy = number_based.ApproximateNumber(0.5)
         self.approximate_time_policy = time_based.ApproximateTime(100)
-        self.approximate_time_policy_2 = time_based.ApproximateTime(1000)
+        self.approximate_time_policy_2 = time_based.ApproximateTimeSeconds(1)
+        self.dummy_policy = SomePolicyWithoutParams()
 
     def test_with_number_key(self):
         self.assertIsNone(self.cache_by_number.cached(self.key1))
@@ -70,10 +71,18 @@ class CacheTest(unittest.TestCase):
         self.assertIsNone(
             self.cache_by_time.cached(self.time3, self.approximate_time_policy)
         )
+        # exactly 1s after rounding to integer
+        self.assertTrue(
+            self.cache_by_time.cached(self.time3, self.approximate_time_policy_2)
+        )
         # expect 2s after rounding to integer which is over threshold
         self.assertIsNone(
             self.cache_by_time.cached(self.time4, self.approximate_time_policy_2)
         )
+
+    def test_with_other_comparison_policy(self):
+        self.cache_by_time.cache(self.time1, 1.0)
+        self.assertTrue(self.cache_by_time.cached(self.time2, self.dummy_policy))
 
 
 if __name__ == "__main__":
