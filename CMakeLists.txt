@@ -64,11 +64,13 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
 #############
 ## Testing ##
 #############
-find_package(GTest)
 
-if(GTEST_FOUND)
-  if(BUILD_TESTS)
+if(BUILD_TESTS)
+
+  find_package(GTest)
+  if(GTEST_FOUND)
     file(GLOB_RECURSE _tests "test/*.cpp" "test/*.cc")
+    list(REMOVE_ITEM _tests "${CMAKE_CURRENT_SOURCE_DIR}/test/python_bindings.cpp")
 
     foreach(_test ${_tests})
       get_filename_component(_test_name ${_test} NAME_WE)
@@ -88,4 +90,30 @@ if(GTEST_FOUND)
       )
     endforeach()
   endif()
+
+  find_package(pybind11 CONFIG)
+    if(pybind11_FOUND)
+      message(STATUS "pybind11 found, building bindings for Python tests")
+
+      # Python bindings modules
+      pybind11_add_module(util_caching_py
+        test/python_bindings.cpp
+      )
+      target_link_libraries(util_caching_py PUBLIC
+        ${PROJECT_NAME}
+      )
+
+      file(GLOB_RECURSE PYTHON_TESTS "test/*.py")
+
+      # Copy Python test files to build directory
+      foreach(_py_test ${PYTHON_TESTS})
+        get_filename_component(_py_test_name ${_py_test} NAME)
+        set(_py_test_target "${CMAKE_BINARY_DIR}/${_py_test_name}")
+
+        message(STATUS "Copying Python file: ${_py_test} to ${_py_test_target}")
+
+        configure_file(${_py_test} ${_py_test_target} COPYONLY)
+      endforeach()
+    endif()
+
 endif()
