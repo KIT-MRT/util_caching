@@ -7,12 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
-############################
-## Read source code files ##
-############################
-file(GLOB_RECURSE PROJECT_HEADER_FILES_INC CONFIGURE_DEPENDS "include/${PROJECT_NAME}/*.h" "include/${PROJECT_NAME}/*.hpp")
-
-
 ###########
 ## Build ##
 ###########
