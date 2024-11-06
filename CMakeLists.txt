@@ -1,5 +1,22 @@
 cmake_minimum_required(VERSION 3.22)
-project(util_caching)
+
+
+######################
+## Project settings ##
+######################
+
+# Read the project/package version from ./version file
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/version" ver)
+string(REGEX MATCH "VERSION=v([0-9\.]*)" _ ${ver})
+set(PACKAGE_VERSION ${CMAKE_MATCH_1})
+
+# Setup project
+project(util_caching
+  VERSION ${PACKAGE_VERSION}
+  DESCRIPTION "This package caches arbitrary values, which can be recalled by specifying a key."
+  LANGUAGES CXX
+)
+
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -24,7 +41,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    VERSION 0.1
+    VERSION ${PACKAGE_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 include(CMakePackageConfigHelpers)
