@@ -40,6 +40,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
   # Allow clangd and others to properly understand this C++ project
   set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+  # Testing only available if this is the main project
+  # Note this needs to be done in the main CMakeLists
+  # since it calls enable_testing, which must be in the
+  # main CMakeLists.
+  include(CTest)
 endif()
 
 
