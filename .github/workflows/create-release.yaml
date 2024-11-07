@@ -1,0 +1,28 @@
+name: Create Release
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-and-release:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build release packages
+        uses: docker/build-push-action@v6
+        with:
+          outputs: |
+            type=local,dest=/tmp/artifacts
+          push: false
+          tags: |
+            ghcr.io/kit-mrt/util_caching_tests
+          target: release
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "/tmp/artifacts/release/*"
+
