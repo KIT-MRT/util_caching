@@ -21,11 +21,25 @@ WORKDIR /home/blinky/
 
 
 
+FROM base AS release
+
+COPY . /tmp/util_caching
+WORKDIR /tmp/util_caching/build
+
+RUN cmake .. && \
+    cmake --build . && \
+    cmake --build . --target package && \
+    mv packages /release && \
+    rm -rf /tmp/util_caching
+
+
+
 FROM base AS install
 
 # Install util_caching
 COPY . /tmp/util_caching
 WORKDIR /tmp/util_caching/build
+
 RUN cmake .. && \
     cmake --build . && \
     cmake --install . && \
