@@ -14,10 +14,15 @@ jobs:
       - name: Build release packages
         uses: docker/build-push-action@v6
         with:
-          outputs: |
-            type=local,dest=/tmp/artifacts
+          tags: |
+            util_caching_release
           push: false
           target: release
+
+      - name: Copy release packages
+        run: |
+          mkdir -p /tmp/artifacts/
+          docker run --rm -v /tmp/artifacts:/tmp/artifacts util_caching_release cp -r /release /tmp/artifacts/
 
       - name: Create Release
         uses: ncipollo/release-action@v1
