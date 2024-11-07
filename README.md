@@ -125,8 +125,7 @@ Follow the steps above to setup the Docker image.
 Then, run the development image.
 
 ```bash
-docker compose -f docker-compose.devel.yaml build
-docker compose -f docker-compose.devel.yaml run --rm util_caching_devel
+docker compose run --rm --build util_caching_devel
 ```
 
 This mounts the source into the container's `/home/blinky/util_caching` folder.
@@ -146,27 +145,8 @@ cmake --build .
 Run all unit tests:
 
 ```bash
-find -executable -type f -name '*-gtest-*' -exec {} \;
+cmake --build . --target test
 ```
-
-This will produce the full gtest output:
-
-> ```
-> [==========] Running 3 tests from 1 test suite.
-> [----------] Global test environment set-up.
-> [----------] 3 tests from CacheTest
-> [ RUN      ] CacheTest.TestWithNumberKey
-> [       OK ] CacheTest.TestWithNumberKey (0 ms)
-> [ RUN      ] CacheTest.TestWithTimeKey
-> [       OK ] CacheTest.TestWithTimeKey (0 ms)
-> [ RUN      ] CacheTest.TestWithOtherComparisonPolicy
-> [       OK ] CacheTest.TestWithOtherComparisonPolicy (0 ms)
-> [----------] 3 tests from CacheTest (0 ms total)
-> 
-> [----------] Global test environment tear-down
-> [==========] 3 tests from 1 test suite ran. (0 ms total)
-> [  PASSED  ] 3 tests.
-> ```
 
 
 ### Using ROS 1 and catkin
