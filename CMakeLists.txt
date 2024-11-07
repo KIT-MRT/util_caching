@@ -49,9 +49,17 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 
+###################
+## Find packages ##
+###################
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+
 ###########
 ## Build ##
 ###########
+
 # Declare a cpp library
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE
@@ -63,6 +71,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE
 ###################
 ## Cmake Package ##
 ###################
+
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
@@ -80,7 +89,6 @@ configure_package_config_file(
 #############
 ## Install ##
 #############
-
 
 install(TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
@@ -107,3 +115,13 @@ if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR ARBITRATION_GRAPHS_CMAKE_BUILD_T
    AND BUILD_TESTS)
   add_subdirectory(test)
 endif()
+
+
+###############
+## Packaging ##
+###############
+
+include(cpack_config)
+include(CPack)
+
+message(STATUS "Components to pack: ${CPACK_COMPONENTS_ALL}")
