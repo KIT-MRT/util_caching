@@ -21,6 +21,9 @@ jobs:
             ghcr.io/kit-mrt/util_caching_tests
           target: release
 
+      - name: Verify release directory contents
+        run: ls /artifacts && ls -R /artifacts/release
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
