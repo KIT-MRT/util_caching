@@ -1,0 +1,76 @@
+name: bump version and create release
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - github_action # todo: remove before merge
+
+jobs:
+  bump-version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: check out the repository
+        uses: actions/checkout@v4
+
+      - name: read version from file
+        run: |
+          # read the version from the version file, only store the number (without the 'v')
+          initial_version=$(cat version | cut -d'v' -f2)
+          echo "current version: $initial_version"
+          echo "initial_version=${initial_version}" >> $github_env
+
+      - name: bump version and push tag
+        id: bump_version
+        uses: anothrnick/github-tag-action@v1
+        env:
+          default_bump: patch
+          dry_run: true
+          github_token: ${{ secrets.github_token }}
+          initial_version: ${{ env.initial_version }}
+          with_v: true
+
+      - name: update version file with new version
+        run: |
+          echo "new version: ${{ steps.bump_version.outputs.new_tag }}"
+          echo "version=${{ steps.bump_version.outputs.new_tag }}" > version
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add version
+          git commit -m "chore: update version file to ${{ steps.bump_version.outputs.new_tag }}"
+          git push
+
+      - name: Push new tag
+        run: |
+          git tag ${{ steps.bump_version.outputs.new_tag }}
+          git push origin ${{ steps.bump_version.outputs.new_tag }}
+
+  create-release:
+    needs: bump-version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Build release packages
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            util_caching_release
+          push: false
+          target: release
+
+      - name: copy release packages
+        run: |
+          mkdir -p /tmp/artifacts/
+          docker run --rm -v /tmp/artifacts:/tmp/artifacts util_caching_release cp -r /release /tmp/artifacts/
+
+      - name: create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "/tmp/artifacts/release/*"
+          tag: ${{ needs.bump-version.outputs.new_tag }}
+
