@@ -1,4 +1,4 @@
-name: Bump version
+name: Bump version and create release
 on:
   pull_request:
     types:
@@ -8,11 +8,13 @@ on:
       - github_action # TODO: Remove before merge
 
 jobs:
-  build:
+  bump-version:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      new_tag: ${{ steps.bump_version.outputs.new_tag }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -48,3 +50,30 @@ jobs:
         run: |
           git tag ${{ steps.bump_version.outputs.new_tag }}
           git push origin ${{ steps.bump_version.outputs.new_tag }}
+
+  create-release:
+    needs: bump-version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Build release packages
+        uses: docker/build-push-action@v6
+        with:
+          tags: |
+            util_caching_release
+          push: false
+          target: release
+
+      - name: Copy release packages
+        run: |
+          mkdir -p /tmp/artifacts/
+          docker run --rm -v /tmp/artifacts:/tmp/artifacts util_caching_release cp -r /release /tmp/artifacts/
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "/tmp/artifacts/release/*"
+          tag: ${{ needs.bump-version.outputs.new_tag }}
+
+
