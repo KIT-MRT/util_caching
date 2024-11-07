@@ -21,6 +21,18 @@ WORKDIR /home/blinky/
 
 
 
+FROM base AS unit_test
+
+COPY . /tmp/util_caching
+WORKDIR /tmp/util_caching/build
+
+RUN cmake -DBUILD_TESTS=true .. && \
+    cmake --build . -j9
+
+CMD ["cmake", "--build", ".", "--target", "test"]
+
+
+
 FROM base AS release
 
 COPY . /tmp/util_caching
