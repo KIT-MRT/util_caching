@@ -26,3 +26,6 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "libdevel")
 set(CPACK_DEBIAN_ARCHITECTURE "all")
 
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+
+# Rename package to kebab case
+set(CPACK_DEBIAN_PACKAGE_NAME "util-caching")
