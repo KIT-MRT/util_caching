@@ -2,3 +2,12 @@ services:
   util_caching:
     image: util_caching
     build: .
+  util_caching_devel:
+    build:
+      context: .
+      target: devel
+    extends:
+      service: util_caching
+    image: util_caching_devel
+    volumes:
+      - .:/home/blinky/util_caching

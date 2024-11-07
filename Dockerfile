@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -10,6 +10,19 @@ RUN apt-get update && \
       libgtest-dev && \
     apt-get clean
 
+
+
+FROM base AS devel
+
+RUN useradd --create-home --uid 1000 blinky
+USER blinky
+
+WORKDIR /home/blinky/
+
+
+
+FROM base AS install
+
 # Install util_caching
 COPY . /tmp/util_caching
 RUN mkdir /tmp/util_caching/build && \
@@ -18,10 +31,3 @@ RUN mkdir /tmp/util_caching/build && \
     cmake --build . && \
     cmake --install . && \
     rm -rf /tmp/util_caching
-
-
-RUN useradd --create-home --uid 1000 blinky
-USER blinky
-
-WORKDIR /home/blinky/
-
