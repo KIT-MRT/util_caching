@@ -19,6 +19,9 @@ jobs:
           push: false
           target: release
 
+      - name: Verify release directory contents
+        run: ls /artifacts && ls -R /artifacts/release
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
