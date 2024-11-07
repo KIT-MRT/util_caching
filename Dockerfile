@@ -25,9 +25,8 @@ FROM base AS install
 
 # Install util_caching
 COPY . /tmp/util_caching
-RUN mkdir /tmp/util_caching/build && \
-    cd /tmp/util_caching/build && \
-    cmake .. && \
+WORKDIR /tmp/util_caching/build
+RUN cmake .. && \
     cmake --build . && \
     cmake --install . && \
     rm -rf /tmp/util_caching
