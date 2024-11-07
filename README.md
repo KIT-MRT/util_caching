@@ -1,6 +1,6 @@
 # UTIL CACHING
 
-This package cache arbitrary values which can be recalled by specifying a key.
+This packages provides a utility class to simplify caching of arbitrary values.
 
 
 ## Usage
