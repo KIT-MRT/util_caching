@@ -76,4 +76,3 @@ jobs:
           artifacts: "/tmp/artifacts/release/*"
           tag: ${{ needs.bump-version.outputs.new_tag }}
 
-
