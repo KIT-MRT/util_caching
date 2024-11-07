@@ -76,3 +76,4 @@ jobs:
           artifacts: "/tmp/artifacts/release/*"
           tag: ${{ env.VERSION }}
 
+
