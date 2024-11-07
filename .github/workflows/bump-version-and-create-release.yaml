@@ -74,3 +74,4 @@ jobs:
           artifacts: "/tmp/artifacts/release/*"
           tag: ${{ steps.bump-version.outputs.new_tag }}
 
+
