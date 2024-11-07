@@ -55,6 +55,13 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Read version from file
+        run: |
+          cat version >> $GITHUB_ENV
+
       - name: Build release packages
         uses: docker/build-push-action@v6
         with:
@@ -72,5 +79,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "/tmp/artifacts/release/*"
-          tag: ${{ steps.bump-version.outputs.new_tag }}
+          tag: ${{ env.VERSION }}
 
