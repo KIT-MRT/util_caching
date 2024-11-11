@@ -82,10 +82,10 @@ More usage please check the unittest.
 ### Using Debian package (recommended)
 
 We provide a Debian package for easy installation on Debian-based distributions.
-Download the latest `.deb` package from the [releases page](https://github.com/KIT-MRT/util_caching/releases) and install it with `dpkg`:
+Download the [latest `.deb` package](https://github.com/KIT-MRT/util_caching/releases/latest/download/libutil-caching-dev.deb) and install it with `dpkg`:
 
 ```bash
-sudo dpkg -i util-caching*.deb
+sudo dpkg -i libutil-caching-dev.deb
 ```
 
 ### Using Docker image
