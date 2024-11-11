@@ -5,7 +5,6 @@ on:
       - closed
     branches:
       - main
-      - github_action # TODO: Remove before merge
 
 jobs:
   bump-version:
