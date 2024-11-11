@@ -21,13 +21,38 @@ WORKDIR /home/blinky/
 
 
 
+FROM base AS unit_test
+
+COPY . /tmp/util_caching
+WORKDIR /tmp/util_caching/build
+
+RUN cmake -DBUILD_TESTS=true .. && \
+    cmake --build . -j9
+
+CMD ["cmake", "--build", ".", "--target", "test"]
+
+
+
+FROM base AS release
+
+COPY . /tmp/util_caching
+WORKDIR /tmp/util_caching/build
+
+RUN cmake .. && \
+    cmake --build . && \
+    cmake --build . --target package && \
+    mv packages /release && \
+    rm -rf /tmp/util_caching
+
+
+
 FROM base AS install
 
 # Install util_caching
 COPY . /tmp/util_caching
-RUN mkdir /tmp/util_caching/build && \
-    cd /tmp/util_caching/build && \
-    cmake .. && \
+WORKDIR /tmp/util_caching/build
+
+RUN cmake .. && \
     cmake --build . && \
     cmake --install . && \
     rm -rf /tmp/util_caching

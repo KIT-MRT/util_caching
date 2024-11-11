@@ -13,7 +13,7 @@ set(PACKAGE_VERSION ${CMAKE_MATCH_1})
 # Setup project
 project(util_caching
   VERSION ${PACKAGE_VERSION}
-  DESCRIPTION "This package caches arbitrary values, which can be recalled by specifying a key."
+  DESCRIPTION "This packages provides a utility class to simplify caching of arbitrary values."
   LANGUAGES CXX
 )
 

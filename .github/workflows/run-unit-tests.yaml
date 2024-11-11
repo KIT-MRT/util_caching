@@ -1,0 +1,22 @@
+name: Run unit tests
+
+on:
+  push:
+
+jobs:
+  build-and-run-unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build core library unit test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: |
+            ghcr.io/kit-mrt/util_caching_tests
+          target: unit_test
+
+      - name: Run library unit tests
+        run: |
+          docker run --rm ghcr.io/kit-mrt/util_caching_tests
+
