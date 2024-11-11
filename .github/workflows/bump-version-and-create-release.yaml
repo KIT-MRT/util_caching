@@ -57,6 +57,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Check out the repository and pull the new tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump-version.outputs.new_tag }}
+
       - name: Build release packages
         uses: docker/build-push-action@v6
         with:
