@@ -22,7 +22,7 @@ jobs:
       - name: Read version from file
         run: |
           # Read the version from the version file, only store the number (without the 'v')
-          INITIAL_VERSION=$(cat version | cut -d'v' -f2)
+          INITIAL_VERSION=$(source version && echo ${VERSION#v})
           echo "Current version: $INITIAL_VERSION"
           echo "INITIAL_VERSION=${INITIAL_VERSION}" >> $GITHUB_ENV
 
