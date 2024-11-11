@@ -5,6 +5,7 @@ on:
       - closed
     branches:
       - main
+      - test_version_bump_workflow
 
 jobs:
   bump-version:
