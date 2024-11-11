@@ -30,7 +30,7 @@ jobs:
         id: bump_version
         uses: anothrNick/github-tag-action@v1
         env:
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: minor
           DRY_RUN: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INITIAL_VERSION: ${{ env.INITIAL_VERSION }}
