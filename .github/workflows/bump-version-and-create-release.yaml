@@ -33,7 +33,7 @@ jobs:
         env:
           DEFAULT_BUMP: minor
           DRY_RUN: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
           INITIAL_VERSION: ${{ env.INITIAL_VERSION }}
           WITH_V: true
 
