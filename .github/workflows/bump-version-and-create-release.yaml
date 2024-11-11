@@ -69,9 +69,10 @@ jobs:
       - name: Build release packages
         uses: docker/build-push-action@v6
         with:
+          context: .
+          push: false
           tags: |
             util_caching_release
-          push: false
           target: release
 
       - name: Copy release packages
