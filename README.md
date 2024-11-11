@@ -79,6 +79,15 @@ More usage please check the unittest.
 
 ## Installation
 
+### Using Debian package (recommended)
+
+We provide a Debian package for easy installation on Debian-based distributions.
+Download the latest `.deb` package from the [releases page](https://github.com/KIT-MRT/util_caching/releases) and install it with `dpkg`:
+
+```bash
+sudo dpkg -i util-caching*.deb
+```
+
 ### Using Docker image
 
 We provide a [`Dockerfile`](./Dockerfile) with the library already installed globally.
