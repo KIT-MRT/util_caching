@@ -96,3 +96,20 @@ jobs:
           tag: ${{ needs.compute-version.outputs.new_tag }}
           body: ${{ github.event.pull_request.body }}
 
+
+  build-and-run-release-tests:
+    needs: [compute-version, create-release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build release test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          build-args: |
+            RELEASE_DOWNLOAD_URL=https://github.com/KIT-MRT/util_caching/releases/download/${{ needs.compute-version.outputs.new_tag }}
+          push: false
+          tags: release_tester
+          target: release_test
+
+      - name: Run unit tests with/against released version
+        run: |
+          docker run --rm release_tester
