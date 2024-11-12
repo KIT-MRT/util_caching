@@ -66,7 +66,7 @@ jobs:
 
 
   create-release:
-    needs: update-version-file
+    needs: [compute-version, update-version-file]
     runs-on: ubuntu-latest
     permissions:
       contents: write
