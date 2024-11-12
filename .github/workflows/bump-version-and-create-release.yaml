@@ -5,6 +5,7 @@ on:
       - closed
     branches:
       - main
+      - fix_version_bump_workflow
 
 jobs:
   compute-version:
