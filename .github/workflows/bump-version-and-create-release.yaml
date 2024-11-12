@@ -98,12 +98,14 @@ jobs:
 
 
   build-and-run-release-tests:
-    needs: create-release
+    needs: [compute-version, create-release]
     runs-on: ubuntu-latest
     steps:
       - name: Build release test Docker image
         uses: docker/build-push-action@v6
         with:
+          build-args: |
+            RELEASE_DOWNLOAD_URL=https://github.com/KIT-MRT/util_caching/releases/download/${{ needs.compute-version.outputs.new_tag }}
           push: false
           tags: |
             ghcr.io/kit-mrt/util_caching_release_tests

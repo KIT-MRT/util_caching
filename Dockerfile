@@ -48,10 +48,12 @@ RUN cmake .. && \
 
 FROM base AS release_test
 
+ARG RELEASE_DOWNLOAD_URL=https://github.com/KIT-MRT/util_caching/releases/latest/download/
+
 # This downloads the latest util_caching debian release and adds it to the docker image
 # This "bloats" the image. But otherwise, we'd have to installing wget and ca-certificates
 # temporarily to download and install the package in one docker layer…
-ADD https://github.com/KIT-MRT/util_caching/releases/latest/download/libutil-caching-dev.deb /tmp/debfiles/
+ADD ${RELEASE_DOWNLOAD_URL}/libutil-caching-dev.deb /tmp/debfiles/
 
 # Install util_caching from release debian package
 RUN dpkg -i /tmp/debfiles/*.deb && \
