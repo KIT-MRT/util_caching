@@ -96,3 +96,19 @@ jobs:
           tag: ${{ needs.compute-version.outputs.new_tag }}
           body: ${{ github.event.pull_request.body }}
 
+
+  build-and-run-release-tests:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build release test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: |
+            ghcr.io/kit-mrt/util_caching_release_tests
+          target: release_test
+
+      - name: Run unit tests with/against released version
+        run: |
+          docker run --rm ghcr.io/kit-mrt/util_caching_release_tests
