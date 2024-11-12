@@ -91,6 +91,12 @@ jobs:
           mkdir -p /tmp/artifacts/
           docker run --rm -v /tmp/artifacts:/tmp/artifacts util_caching_release cp -r /release /tmp/artifacts/
 
+      - name: Print debug outputs
+        run: |
+          ls -la /tmp/artifacts/release
+          cat version
+          git status
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
