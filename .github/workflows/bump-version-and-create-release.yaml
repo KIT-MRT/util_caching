@@ -107,10 +107,9 @@ jobs:
           build-args: |
             RELEASE_DOWNLOAD_URL=https://github.com/KIT-MRT/util_caching/releases/download/${{ needs.compute-version.outputs.new_tag }}
           push: false
-          tags: |
-            ghcr.io/kit-mrt/util_caching_release_tests
+          tags: release_tester
           target: release_test
 
       - name: Run unit tests with/against released version
         run: |
-          docker run --rm ghcr.io/kit-mrt/util_caching_release_tests
+          docker run --rm release_tester
