@@ -25,7 +25,7 @@ jobs:
           echo "Current version: $INITIAL_VERSION"
           echo "INITIAL_VERSION=${INITIAL_VERSION}" >> $GITHUB_ENV
 
-      - name: Bump version and push tag
+      - name: Bump version
         id: bump_version
         uses: anothrNick/github-tag-action@v1
         env:
@@ -37,7 +37,6 @@ jobs:
 
 
   update-version-file:
-    if: github.event.pull_request.merged == true
     needs: compute-version
     runs-on: ubuntu-latest
     permissions:
@@ -82,13 +81,13 @@ jobs:
           context: .
           push: false
           tags: |
-            util_caching_release
+            release_builder
           target: release
 
       - name: Copy release packages
         run: |
           mkdir -p /tmp/artifacts/
-          docker run --rm -v /tmp/artifacts:/tmp/artifacts util_caching_release cp -r /release /tmp/artifacts/
+          docker run --rm -v /tmp/artifacts:/tmp/artifacts release_builder cp -r /release /tmp/artifacts/
 
       - name: Create Release
         uses: ncipollo/release-action@v1
