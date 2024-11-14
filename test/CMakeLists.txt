@@ -101,7 +101,7 @@ if(pybind11_FOUND)
     python_bindings.cpp
   )
   target_link_libraries(util_caching_py PUBLIC
-    ${PROJECT_NAME}
+    util_caching
   )
 
   file(GLOB_RECURSE _py_tests CONFIGURE_DEPENDS "*.py")
