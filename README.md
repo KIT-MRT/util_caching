@@ -1,9 +1,26 @@
 # util_caching
 
-This packages provides a utility class to simplify caching of arbitrary values.
 [![Latest Release](https://img.shields.io/github/v/release/KIT-MRT/util_caching?color=green)](https://github.com/KIT-MRT/util_caching/releases)
 [![License](https://img.shields.io/github/license/KIT-MRT/util_caching)](./LICENSE)
 [![Unit Test Status](https://img.shields.io/github/actions/workflow/status/KIT-MRT/util_caching/run-unit-tests.yaml?branch=main&label=tests)](https://github.com/KIT-MRT/util_caching/actions/workflows/run-unit-tests.yaml?query=branch%3Amain)
+
+
+**Cache arbitrary key-value pairs with this simple utility class.**
+
+- 🏷️ **Flexible Key and Value Types**  
+  Cache any data type with customizable key types.
+- 🎯 **Exact or Approximate Matching**  
+  Retrieve cached values with precise or tolerance-based policies.
+- 🕑 **Time-Based Keys**  
+  Perfect for applications needing time-point based caching.
+- ⚙ **Configurable Matching Policies**  
+  Define individual policies for value retrieval.
+- 🧪 **Tested and Reliable**  
+  Includes unit tests to ensure robustness in real-world applications.
+- 📦 **Header-Only**  
+  Easy integration into your project – just include the headers!
+- 📜 **Permissive License**  
+  Published under the MIT license to maximize your project's flexibility.
 
 
 ## Usage
