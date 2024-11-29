@@ -127,7 +127,8 @@ We re-implemented all of the C++ unit tests in Python, so take a closer look at 
 
 ## Installation
 
-### Using Debian package (recommended)
+<details>
+<summary>Using Debian package (recommended)</summary>
 
 We provide a Debian package for easy installation on Debian-based distributions.
 Download the [latest `.deb` package](https://github.com/KIT-MRT/util_caching/releases/latest/download/libutil-caching-dev.deb) and install it with `dpkg`:
@@ -136,7 +137,10 @@ Download the [latest `.deb` package](https://github.com/KIT-MRT/util_caching/rel
 sudo dpkg -i libutil-caching-dev.deb
 ```
 
-### Using Docker image
+</details>
+
+<details>
+<summary>Using Docker image</summary>
 
 We provide a [`Dockerfile`](./Dockerfile) with the library already installed globally.
 
@@ -155,8 +159,10 @@ So, it can be easily loaded with CMake:
 find_package(util_caching REQUIRED)
 ```
 
+</details>
 
-### Building from source using CMake
+<details>
+<summary>Building from source using CMake</summary>
 
 First make sure all dependencies are installed:
 - [Googletest](https://github.com/google/googletest) (optional, if you want to build unit tests)
@@ -174,10 +180,13 @@ cmake --build .
 sudo cmake --install .
 ```
 
+</details>
+
 
 ## Development
 
-### Using Docker image
+<details>
+<summary>Using Docker image</summary>
 
 Follow the steps above to setup the Docker image.
 Then, run the development image.
@@ -189,8 +198,11 @@ docker compose run --rm --build util_caching_devel
 This mounts the source into the container's `/home/blinky/util_caching` folder.
 There, you can edit the source code, compile and run the tests etc.
 
+</details>
 
-### Compiling unit tests using CMake
+
+<details>
+<summary>Compiling unit tests using CMake</summary>
 
 In order to compile with tests define `BUILD_TESTS=true`
 ```bash
@@ -206,8 +218,11 @@ Run all unit tests:
 cmake --build . --target test
 ```
 
+</details>
 
-### Using ROS 1 and catkin
+
+<details>
+<summary>Using ROS 1 and catkin</summary>
 
 The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that how util_caching can be used in a catkin project (it uses CMake under the hood anyways):
 
@@ -217,3 +232,5 @@ docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
 ```
 
 See [demo/README.md](demo/README.md) for how to run the demo, showcasing the use of `util_caching` in a ROS node.
+
+</details>
