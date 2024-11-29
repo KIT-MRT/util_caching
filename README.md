@@ -188,8 +188,7 @@ sudo cmake --install .
 <details>
 <summary>Using Docker image</summary>
 
-Follow the steps above to setup the Docker image.
-Then, run the development image.
+To start a development container, run:
 
 ```bash
 docker compose run --rm --build util_caching_devel
