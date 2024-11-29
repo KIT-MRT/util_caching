@@ -25,7 +25,11 @@
 
 ## Usage
 
-### Caching with number
+To get you started, here are some examples of how to use this library.
+Make sure to check out the unit tests for more detailed examples.
+
+<details>
+<summary>Caching with number</summary>
 
 You could cache a value with arbitrary type (e.g. double) giving number (e.g. double) as key, first value type is for the key.
 
@@ -64,8 +68,10 @@ Of course the value can not be recalled when the keys differ more than the thres
     // over threshold
     EXPECT_FALSE(cacheByNumber.cached(key3, approximateNumberPolicy));
 ```
+</details>
  
-### Caching with time point
+<details>
+<summary>Caching with time point</summary>
 
 A more practical usage is to cache values by giving time point as key:
 
@@ -94,7 +100,7 @@ or by specifying one comparison policy and threshold (100ms for example), and re
     EXPECT_DOUBLE_EQ(cacheByTime.cached(time2, approximateTimePolicy).value(), 1.);
 ```
 
-More usage please check the unittest.
+</details>
 
 ## Python bindings
 
