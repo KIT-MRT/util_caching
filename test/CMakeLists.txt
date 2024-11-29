@@ -65,7 +65,7 @@ if(GTEST_FOUND)
     set(TEST_TARGET_NAME util_caching-gtest-${TEST_TARGET_NAME})
 
     message(STATUS
-      "Adding gtest unittest \"${TEST_TARGET_NAME}\" with working dir ${PROJECT_SOURCE_DIR}/${TEST_FOLDER} \n _test: ${_test}"
+      "Adding gtest unittest \"${TEST_TARGET_NAME}\" with working dir ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_FOLDER} \n _test: ${_test}"
     )
 
     add_executable(${TEST_TARGET_NAME} ${_test})
