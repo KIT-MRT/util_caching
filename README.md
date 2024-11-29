@@ -152,7 +152,7 @@ docker compose build
 docker compose run --rm util_caching
 ```
 
-The library is installed in the Docker image under `/usr/local/include/util_caching/` and `/usr/local/lib/cmake/util_caching/`.
+The library is installed in the Docker image under `/usr/include/util_caching/` and `/usr/lib/cmake/util_caching/`.
 So, it can be easily loaded with CMake:
 
 ```cmake
