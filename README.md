@@ -1,4 +1,4 @@
-# UTIL CACHING
+# util_caching
 
 This packages provides a utility class to simplify caching of arbitrary values.
 
