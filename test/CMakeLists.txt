@@ -43,6 +43,11 @@ endif()
 ###################
 
 find_package(GTest)
+find_package(pybind11 CONFIG)
+
+if(NOT GTEST_FOUND AND NOT pybind11_FOUND)
+  message(WARNING "Neither GTest nor pybind11 found. Cannot compile tests!")
+endif()
 
 # Find installed lib and its dependencies, if this is build as top-level project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -50,13 +55,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 
-###########
-## Build ##
-###########
+####################
+## C++ Unit Tests ##
+####################
 
 if(GTEST_FOUND)
   file(GLOB_RECURSE _tests CONFIGURE_DEPENDS "*.cpp" "*.cc")
   list(FILTER _tests EXCLUDE REGEX "${CMAKE_CURRENT_BINARY_DIR}")
+  list(REMOVE_ITEM _tests "${CMAKE_CURRENT_SOURCE_DIR}/python_bindings.cpp")
 
   foreach(_test ${_tests})
     get_filename_component(_test_name ${_test} NAME_WE)
@@ -80,6 +86,42 @@ if(GTEST_FOUND)
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
   endforeach()
-else()
-  message(WARNING "GTest not found. Cannot compile tests!")
 endif()
+
+#######################
+## Python Unit Tests ##
+#######################
+
+if(pybind11_FOUND)
+  # Find Python3 to run tests via ctest
+  find_package(Python3 REQUIRED)
+
+  # Python bindings modules
+  pybind11_add_module(util_caching_py
+    python_bindings.cpp
+  )
+  target_link_libraries(util_caching_py PUBLIC
+    util_caching
+  )
+
+  file(GLOB_RECURSE _py_tests CONFIGURE_DEPENDS "*.py")
+
+  # Copy Python test files to build directory
+  foreach(_py_test ${_py_tests})
+    get_filename_component(_py_test_name ${_py_test} NAME)
+    string(REGEX REPLACE "-test" "" PY_TEST_NAME ${_py_test_name})
+    set(PY_TEST_NAME ${PROJECT_NAME}-pytest-${PY_TEST_NAME})
+
+    message(STATUS
+      "Adding python unittest \"${PY_TEST_NAME}\" with working dir ${PROJECT_SOURCE_DIR}/${TEST_FOLDER} \n _test: ${_py_test}"
+    )
+
+    configure_file(${_py_test} ${PY_TEST_NAME} COPYONLY)
+
+    add_test(NAME ${PY_TEST_NAME}
+      COMMAND ${Python3_EXECUTABLE} ${PY_TEST_NAME}
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
+  endforeach()
+endif()
+
