@@ -15,7 +15,7 @@
   Perfect for applications needing time-point based caching.
 - ⚙ **Configurable Matching Policies**  
   Define individual policies for value retrieval.
-- 🐍 **Python Bindings**
+- 🐍 **Python Bindings**  
   Seamlessly use the library in Python with pybind11 bindings.
 - 🧪 **Tested and Reliable**  
   Includes unit tests to ensure robustness in real-world applications.
