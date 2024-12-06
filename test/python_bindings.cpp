@@ -22,7 +22,7 @@ struct SomePolicyWithoutParams {
 };
 
 /*!
- * \brief The python module definition that allows running equivalent unit tests in python.
+ * \brief The python module definition that allows running python unit tests equivalent to the native C++ ones.
  */
 PYBIND11_MODULE(util_caching_py, mainModule) {
     // Just some aliases to make the code more readable
