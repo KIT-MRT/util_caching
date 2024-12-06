@@ -1,11 +1,37 @@
-# UTIL CACHING
+# util_caching
 
-This packages provides a utility class to simplify caching of arbitrary values.
+[![Latest Release](https://img.shields.io/github/v/release/KIT-MRT/util_caching?color=green)](https://github.com/KIT-MRT/util_caching/releases)
+[![License](https://img.shields.io/github/license/KIT-MRT/util_caching)](./LICENSE)
+[![Unit Test Status](https://img.shields.io/github/actions/workflow/status/KIT-MRT/util_caching/run-unit-tests.yaml?branch=main&label=tests)](https://github.com/KIT-MRT/util_caching/actions/workflows/run-unit-tests.yaml?query=branch%3Amain)
+
+
+**Cache arbitrary key-value pairs with this simple utility class.**
+
+- 🏷️ **Flexible Key and Value Types**  
+  Cache any data type with customizable key types.
+- 🎯 **Exact or Approximate Matching**  
+  Retrieve cached values with precise or tolerance-based policies.
+- 🕑 **Time-Based Keys**  
+  Perfect for applications needing time-point based caching.
+- ⚙ **Configurable Matching Policies**  
+  Define individual policies for value retrieval.
+- 🐍 **Python Bindings**
+  Seamlessly use the library in Python with pybind11 bindings.
+- 🧪 **Tested and Reliable**  
+  Includes unit tests to ensure robustness in real-world applications.
+- 📦 **Header-Only**  
+  Easy integration into your project – just include the headers!
+- 📜 **Permissive License**  
+  Published under the MIT license to maximize your project's flexibility.
 
 
 ## Usage
 
-### Caching with number
+To get you started, here are some examples of how to use this library.
+Make sure to check out the unit tests for more detailed examples.
+
+<details>
+<summary>Caching with number</summary>
 
 You could cache a value with arbitrary type (e.g. double) giving number (e.g. double) as key, first value type is for the key.
 
@@ -44,8 +70,10 @@ Of course the value can not be recalled when the keys differ more than the thres
     // over threshold
     EXPECT_FALSE(cacheByNumber.cached(key3, approximateNumberPolicy));
 ```
+</details>
  
-### Caching with time point
+<details>
+<summary>Caching with time point</summary>
 
 A more practical usage is to cache values by giving time point as key:
 
@@ -74,9 +102,10 @@ or by specifying one comparison policy and threshold (100ms for example), and re
     EXPECT_DOUBLE_EQ(cacheByTime.cached(time2, approximateTimePolicy).value(), 1.);
 ```
 
-More usage please check the unittest.
+</details>
 
-## Python bindings
+<details>
+<summary>Using the Python bindings</summary>
 
 The library can be used in Python via pybind11 bindings.
 Since `util_caching` is a templated C++ library,
@@ -98,10 +127,13 @@ cache.cache(1.0, 2.0)
 ```
 We re-implemented all of the C++ unit tests in Python, so take a closer look at those for more advanced usage examples.
 
+</details>
+
 
 ## Installation
 
-### Using Debian package (recommended)
+<details>
+<summary>Using Debian package (recommended)</summary>
 
 We provide a Debian package for easy installation on Debian-based distributions.
 Download the [latest `.deb` package](https://github.com/KIT-MRT/util_caching/releases/latest/download/libutil-caching-dev.deb) and install it with `dpkg`:
@@ -110,7 +142,10 @@ Download the [latest `.deb` package](https://github.com/KIT-MRT/util_caching/rel
 sudo dpkg -i libutil-caching-dev.deb
 ```
 
-### Using Docker image
+</details>
+
+<details>
+<summary>Using Docker image</summary>
 
 We provide a [`Dockerfile`](./Dockerfile) with the library already installed globally.
 
@@ -129,8 +164,10 @@ So, it can be easily loaded with CMake:
 find_package(util_caching REQUIRED)
 ```
 
+</details>
 
-### Building from source using CMake
+<details>
+<summary>Building from source using CMake</summary>
 
 First make sure all dependencies are installed:
 - [Googletest](https://github.com/google/googletest) (optional, if you want to build unit tests)
@@ -148,13 +185,15 @@ cmake --build .
 sudo cmake --install .
 ```
 
+</details>
+
 
 ## Development
 
-### Using Docker image
+<details>
+<summary>Using Docker image</summary>
 
-Follow the steps above to setup the Docker image.
-Then, run the development image.
+To start a development container, run:
 
 ```bash
 docker compose run --rm --build util_caching_devel
@@ -163,8 +202,11 @@ docker compose run --rm --build util_caching_devel
 This mounts the source into the container's `/home/blinky/util_caching` folder.
 There, you can edit the source code, compile and run the tests etc.
 
+</details>
 
-### Compiling unit tests using CMake
+
+<details>
+<summary>Compiling unit tests using CMake</summary>
 
 In order to compile with tests define `BUILD_TESTS=true`
 ```bash
@@ -180,8 +222,11 @@ Run all unit tests:
 cmake --build . --target test
 ```
 
+</details>
 
-### Using ROS 1 and catkin
+
+<details>
+<summary>Using ROS 1 and catkin</summary>
 
 The [`demo/Dockerfile_ros`](./demo/Dockerfile_ros) shows that how util_caching can be used in a catkin project (it uses CMake under the hood anyways):
 
@@ -191,3 +236,5 @@ docker compose -f demo/docker-compose.ros.yaml run --rm util_caching_ros
 ```
 
 See [demo/README.md](demo/README.md) for how to run the demo, showcasing the use of `util_caching` in a ROS node.
+
+</details>
