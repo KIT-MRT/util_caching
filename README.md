@@ -15,6 +15,8 @@
   Perfect for applications needing time-point based caching.
 - ⚙ **Configurable Matching Policies**  
   Define individual policies for value retrieval.
+- 🐍 **Python Bindings**
+  Seamlessly use the library in Python with pybind11 bindings.
 - 🧪 **Tested and Reliable**  
   Includes unit tests to ensure robustness in real-world applications.
 - 📦 **Header-Only**  
@@ -102,7 +104,8 @@ or by specifying one comparison policy and threshold (100ms for example), and re
 
 </details>
 
-## Python bindings
+<details>
+<summary>Using the Python bindings</summary>
 
 The library can be used in Python via pybind11 bindings.
 Since `util_caching` is a templated C++ library,
@@ -123,6 +126,8 @@ cache = Cache()
 cache.cache(1.0, 2.0)
 ```
 We re-implemented all of the C++ unit tests in Python, so take a closer look at those for more advanced usage examples.
+
+</details>
 
 
 ## Installation
